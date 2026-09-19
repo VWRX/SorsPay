@@ -1,0 +1,154 @@
+фикс формы
+Скопируй и вставь в Claude Code (в SorsPaySait):
+
+text
+СРОЧНЫЙ ФИКС формы заявки на лендинге SorsPay.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ПРОБЛЕМА 1: ТЕКСТ В ПОЛЯХ НЕ ВИДЕН
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Сейчас поля формы — БЕЛЫЕ (bg-white), а текст на них — тоже белый/светло-серый,
+поэтому НИЧЕГО НЕ ВИДНО.
+
+НАДО:
+- Фон поля: БЕЛЫЙ (#ffffff) — оставить
+- ТЕКСТ в поле: ЧЁРНЫЙ (#000000 или #111111)
+- Placeholder в поле: ТЁМНО-СЕРЫЙ (#6b7280 или #888888)
+- Рамка поля: тонкая, #d1d5db
+- При фокусе: рамка violet (#8b5cf6), без изменения цвета фона
+
+Применить ко ВСЕМ 5 полям:
+1. Название проекта — input
+2. Сайт или Telegram-бот — input
+3. Тип проекта — select
+4. Ожидаемый оборот — select
+5. Ваш Telegram для связи — input
+
+Код для полей:
+```tsx
+className="w-full bg-white text-black placeholder:text-gray-500 
+           border border-gray-300 rounded-lg px-4 py-2.5
+           focus:outline-none focus:ring-2 focus:ring-violet-500/50 
+           focus:border-violet-500"
+Для select-полей — то же самое, но с иконкой выпадающего списка.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ПРОБЛЕМА 2: ФОРМА НЕ ОТПРАВЛЯЕТСЯ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Сейчас при отправке показывается ошибка "Ошибка отправки".
+Это потому что форма пытается стучаться на API, но он НЕ запущен.
+
+НАДО:
+
+Создать файл .env.local в корне проекта SorsPaySait:
+
+text
+NEXT_PUBLIC_API_URL=http://localhost:3001
+В компоненте формы использовать:
+
+tsx
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+const res = await fetch(`${API_URL}/api/landing/lead`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    projectName,
+    site,
+    projectType,
+    volume,
+    telegram,
+  }),
+});
+
+if (!res.ok) {
+  const err = await res.json().catch(() => ({}));
+  throw new Error(err.message || 'Ошибка отправки');
+}
+Показывать тост «Спасибо! Свяжемся в TG за 15 минут» ТОЛЬКО при успехе.
+
+При ошибке — понятное сообщение:
+«Не удалось отправить. Напишите нам в TG: @SorsPay»
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ПРОБЛЕМА 3: КНОПКА ДОЛЖНА БЛОКИРОВАТЬСЯ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Пока форма не валидна — кнопка "Отправить заявку" disabled:
+
+projectName.length >= 2
+
+site.length >= 3
+
+projectType выбран
+
+volume выбран
+
+telegram начинается с @ и длина >= 2
+
+При отправке:
+
+Кнопка блокируется
+
+Показывается loader + "Отправка…"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ПОСЛЕ ПРАВОК
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Проверь: npm run build — без ошибок
+
+Скажи когда готово — покажу скрин
+
+text
+
+---
+
+## 📋 Backend для приёма заявок
+
+Это **вторая часть**. В основном проекте (`p2p-processing-platform-main`) надо создать:
+
+### 1. Prisma-модель + миграция
+
+```prisma
+model Lead {
+  id           String   @id @default(uuid()) @db.Uuid
+  projectName  String   @map("project_name")
+  site         String
+  projectType  String   @map("project_type")
+  volume       String
+  telegram     String
+  status       String   @default("NEW")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("leads")
+}
+2. Backend-модуль leads
+POST /api/landing/lead — публичный (CORS для лендинга на localhost:3000), сохраняет в БД + шлёт в TG
+
+GET /api/admin/leads — список для админки
+
+3. TG-бот для лидов (запустить!)
+Токен: 8276369061:AAGHs5KB-Bn_6Tpl7vwlxq7Z3XWF-tX9HxM
+Chat ID админа: 8585008165
+
+Сообщение при новой заявке:
+
+text
+✅ Создана заявка
+
+📛 Проект: SorsPay Casino
+🌐 Сайт: https://site.ru
+🎯 Тип: Казино
+💰 Оборот: 5-20 млн ₽/мес
+📱 TG: @username
+🕐 19.09.2026 12:05
+⚠️ Проверь, что бот запущен — раньше он был отключён в логах API:
+
+text
+TELEGRAM_BOT_TOKEN not set — bot handler disabled
