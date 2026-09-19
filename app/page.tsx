@@ -738,7 +738,7 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
           >
             {techPointKeys.map((key) => (
               <div key={key} className="flex items-start gap-3 rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-4 backdrop-blur transition hover:border-violet-500/40">
-                <CheckCircle2 className="mt-0.5 h-5 w-5 bg-gradient-to-r from-accent-1 to-accent-2 text-accent-2" />
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
                 <p className="text-base text-white/90">{t(key)}</p>
               </div>
             ))}
