@@ -473,6 +473,17 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 }
   return (
     <main className="relative overflow-x-hidden text-text-primary">
+  {/* Фоновый логотип SorsPay — на весь экран */}
+  <div
+    className="pointer-events-none fixed inset-0 -z-10 opacity-[0.04]"
+    style={{
+      backgroundImage: 'url(/logo.png)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center center',
+      backgroundRepeat: 'no-repeat',
+    }}
+    aria-hidden
+  />
       <header className="sticky top-0 z-50 border-b border-white/5 bg-background/70 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
@@ -537,18 +548,6 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       </header>
 
          <section className="relative mx-auto flex min-h-[100vh] max-w-[1280px] flex-col overflow-hidden px-4 pb-12 pt-8 sm:px-6 lg:px-8 lg:pb-16 lg:pt-14">
-                {/* Фоновый логотип SorsPay */}
-        <div
-          className="pointer-events-none absolute inset-0 -z-10 opacity-[0.06]"
-          style={{
-            backgroundImage: 'url(/logo.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center right',
-            backgroundRepeat: 'no-repeat',
-          }}
-          aria-hidden
-        />
-
         <div className="relative z-10 grid items-center gap-8 lg:grid-cols-[1.5fr_1fr]">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
