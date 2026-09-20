@@ -536,8 +536,20 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         ) : null}
       </header>
 
-      <section className="mx-auto flex min-h-[100vh] max-w-[1280px] flex-col px-4 pb-12 pt-8 sm:px-6 lg:px-8 lg:pb-16 lg:pt-14">
-        <div className="grid items-center gap-8 lg:grid-cols-[1.5fr_1fr]">
+         <section className="relative mx-auto flex min-h-[100vh] max-w-[1280px] flex-col overflow-hidden px-4 pb-12 pt-8 sm:px-6 lg:px-8 lg:pb-16 lg:pt-14">
+                {/* Фоновый логотип SorsPay */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 opacity-[0.06]"
+          style={{
+            backgroundImage: 'url(/logo.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center right',
+            backgroundRepeat: 'no-repeat',
+          }}
+          aria-hidden
+        />
+
+        <div className="relative z-10 grid items-center gap-8 lg:grid-cols-[1.5fr_1fr]">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
