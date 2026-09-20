@@ -476,9 +476,11 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       <header className="sticky top-0 z-50 border-b border-white/5 bg-background/70 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-accent-1 to-accent-2 font-semibold shadow-glow">
-              <Zap className="h-4 w-4 text-white" />
-            </div>
+        <img
+          src="/favicon.png"
+          alt="SorsPay"
+          className="h-9 w-9 rounded-lg object-cover ring-1 ring-white/10"
+        />
             <div>
               <div className="text-lg font-semibold tracking-[-0.04em] text-text-primary">SorsPay</div>
               <div className="text-[10px] uppercase tracking-[0.18em] text-text-muted">P2P Processing</div>
@@ -949,9 +951,11 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         <div className="mx-auto grid max-w-[1280px] gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.1fr_0.7fr_0.7fr_0.7fr_0.8fr] lg:px-8">
           <div>
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-accent-1 to-accent-2 font-semibold shadow-glow">
-                <Zap className="h-4 w-4 text-white" />
-              </div>
+              <img
+                src="/favicon.png"
+                alt="SorsPay"
+                className="h-9 w-9 rounded-lg object-cover ring-1 ring-white/10"
+               />
               <div className="text-xl font-semibold">SorsPay</div>
             </div>
             <p className="max-w-xs text-sm leading-6 text-white/60">{t('footer.description')}</p>
